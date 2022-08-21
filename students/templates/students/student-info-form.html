@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/da8d57c989.js"></script>
+<link rel="stylesheet" href="{% static 'assets/style.css' %}">
+<div class='info-container '>
+    <h1 class='infotext'> 
+        <strong class='info-fieldname'> STUDENT NAME :  </strong> <span class='info-field'> {{ student.name }} </span>
+    </h1>
+    <h1 class='infotext'> 
+        <strong class='info-fieldname'> STUDENT ID :  </strong> <span class='info-field'> {{ student.pid }} </span>
+    </h1>
+    <h1 class='infotext'> 
+        <strong class='info-fieldname'> CURRENTLY BORROWED : </strong> <span class='info-field'> {{ student.book_issued }} </span> 
+    </h1>
+    <form method='POST' action='submit'>
+        {% csrf_token %}
+        <input type='hidden' value='{{ student.pid }}' name='deletion_id'>
+        <button class='btn btn-danger' style='color:white;' > Delete Student </button>
+    </form>
+</div>
+

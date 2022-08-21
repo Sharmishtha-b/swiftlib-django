@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block activebooks %} active-menu-item {% endblock %}
+
+{% block title %} Books {% endblock %}
+
+{% block content %}
+<div class='container'>
+            <div class='header mx-auto'>
+                <h1 class='pageheader-text'> BOOKS </h1>
+            </div>
+            
+            <div class='results'>
+                
+            </div>
+       
+            <div class='header mx-auto'>
+                <div class="row">
+                    <div class="col-sm btn-div">
+                        <button class='btn qa-button ' data-toggle="modal" data-target="#addbookmodal">
+                            <i class="fas fa-book-open stdicon qa-button-icon"></i><i class="fas fa-plus stdicon qa-button-icon"></i> Add Book 
+                        </button>
+                    </div>
+                    <div class="col-sm btn-div">
+                        <button class='btn qa-button ' data-toggle="modal" data-target="#issuebookmodal">
+                            <i class="fas fa-book-open stdicon qa-button-icon"></i><i class="fas fa-arrow-up stdicon qa-button-icon"></i> Issue Book
+                        </button>
+                    </div>
+                    <div class="col-sm btn-div">
+                        <button class='btn qa-button ' data-toggle="modal" data-target="#returnbookmodal">
+                            <i class="fas fa-book-open stdicon qa-button-icon"></i><i class="fas fa-arrow-down stdicon qa-button-icon"></i> Return Book
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if not books.all %}
+            <div class='mx-auto header'>
+                
+                <h3 class='whiteicon'> Please Add some books !</h3>
+
+            </div>
+            {% endif %}
+
+            {% for book in books %} 
+            <div class='mx-auto header'>
+                <div class='std-info-mini row mx-auto container bookdata-container'>
+                    <p class='student-name col-sm my-auto'  data-toggle="modal" data-target="#book{{book.isbn13}}info"> {{book.name}} <i class="fas fa-id-card-alt stdicon whiteicon"></i> {{book.author}} </p>
+                    <p class='student-name col-sm my-auto'> ISBN-13 : {{book.isbn13}} </p>
+                </div>
+            </div>
+            {% endfor %}
+        <!-- Modal for book info - loops -->
+        {% for book in books %}
+        <div class="modal fade" id="book{{book.isbn13}}info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog s-modal" role="document">
+                <div class="modal-content">
+                    <div class="modal-header s-modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Book Information </h5>
+                        <button type="button" class="close whiteicon" data-dismiss="modal" aria-label="Close" onclick='window.location.reload()'>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body s-modal-body">
+                        <!-- IFRAME FOR BOOK INFO PAGE HERE -->
+                        <iframe class='mx-auto iframe-custom' width='100%' scrolling="no" src="{% url 'bookinfo' isbn13=book.isbn13 %}">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Modal to add book -->
+        <div class="modal fade" id="addbookmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog s-modal" role="document">
+                <div class="modal-content">
+                    <div class="modal-header s-modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Book</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick='window.location.reload()'>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body s-modal-body">
+                        <iframe class='mx-auto iframe-custom add-book-form'  scrolling="no" src="{% url 'addbook' %}" >
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal to issue book -->
+        <div class="modal fade" id="issuebookmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal-dialog s-modal" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header s-modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Issue book</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick='window.location.reload()' >
+                         <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                     <div class="modal-body s-modal-body">
+                        <iframe class='mx-auto iframe-custom issues-add-form'  scrolling="no" src="{% url 'issuebook' %}" >
+                        </iframe>
+                     </div>
+                 </div>
+             </div>
+        </div>
+        <!-- Modal to return book -->
+        <div class="modal fade" id="returnbookmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal-dialog s-modal" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header s-modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Return book</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"  onclick='window.location.reload()'>
+                         <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                     <div class="modal-body s-modal-body">
+                        <iframe class='mx-auto iframe-custom issues-return-form'  scrolling="no" src="{% url 'returnbook'%}" >
+                        </iframe>
+                     </div>
+                 </div>
+             </div>
+         </div>
+{% endblock %}
